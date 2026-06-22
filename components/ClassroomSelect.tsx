@@ -73,7 +73,7 @@ export default function ClassroomSelect({
             exit={{ opacity: 0, y: -8, scaleY: 0.9 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
             style={{ transformOrigin: "top" }}
-            className="absolute z-20 mt-2 max-h-56 w-full overflow-auto rounded-lg border border-white/10 bg-slate-900/95 p-1 shadow-2xl backdrop-blur-md"
+            className="absolute z-50 mt-2 max-h-56 w-full overflow-auto rounded-lg border border-white/10 bg-slate-900/95 p-1 shadow-2xl backdrop-blur-md"
           >
             {classrooms.map((room, i) => (
               <motion.li
