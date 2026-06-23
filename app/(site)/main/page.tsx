@@ -118,7 +118,7 @@ export default function MainPage() {
       {/* Separator between landing and use cases */}
       <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       <section>
-        <Ranking heading="Ranking" />
+        <Ranking/>
       </section>
             <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       {/* Use cases — circular video gallery */}
