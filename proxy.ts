@@ -23,5 +23,5 @@ export function proxy(req: NextRequest) {
 export const config = {
   // Skip API, Next internals, and any file with an extension (so /mediapipe/*,
   // /sounds/*.mp3, images, etc. load without auth).
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|swbticon.ico|.*\\..*).*)"],
 };

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sarsas Contest",
+  title: "Swbt Sports",
   description: "Sarsas Contest — sign in to compete.",
 };
 
