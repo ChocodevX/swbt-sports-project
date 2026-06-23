@@ -46,6 +46,8 @@ type CardNavProps = {
   theme?: "light" | "dark";
   ctaText?: string;
   ctaHref?: string;
+  // When provided, replaces the CTA link entirely (e.g. a static points badge).
+  cta?: React.ReactNode;
 };
 
 const CardNav = ({
@@ -61,6 +63,7 @@ const CardNav = ({
   theme = "light",
   ctaText = "Get Started",
   ctaHref = "#",
+  cta,
 }: CardNavProps) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -204,13 +207,15 @@ const CardNav = ({
             <img src={logo} alt={logoAlt} className="logo" />
           </div>
 
-          <a
-            href={ctaHref}
-            className="card-nav-cta-button"
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
-          >
-            {ctaText}
-          </a>
+          {cta ?? (
+            <a
+              href={ctaHref}
+              className="card-nav-cta-button"
+              style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            >
+              {ctaText}
+            </a>
+          )}
         </div>
 
         <div className="card-nav-content" aria-hidden={!isExpanded}>

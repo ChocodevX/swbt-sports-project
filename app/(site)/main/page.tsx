@@ -1,4 +1,5 @@
 import MinigameGrid from "@/components/MinigameGrid";
+import Ranking from "@/components/ranking";
 import Aurora from "@/components/Aurora";
 import BorderGlow from "@/components/BorderGlow";
 import CircularGallery from "@/components/CircularGallery";
@@ -28,18 +29,18 @@ const SparkleIcon = (
 const features = [
   {
     icon: SparkleIcon,
-    body: "Go head-to-head with other classrooms in live contests. Every round you play feeds a real-time leaderboard, so you always know where your class stands.",
-    points: ["Live leaderboard", "Weekly brackets", "Class rankings"],
+    body: "แข่งขันแบบสดกับห้องเรียนอื่น ๆ ทุกรอบที่คุณเล่นจะป้อนข้อมูลไปยังบอร์ดอันดับแบบเรียลไทม์ ดังนั้นคุณจะรู้เสมอว่าห้องเรียนของคุณอยู่ที่ไหน",
+    points: ["บอร์ดอันดับแบบสด", "วงเล็บรายสัปดาห์", "การจัดอันดับห้องเรียน"],
   },
   {
     icon: SparkleIcon,
-    body: "Pick up the rules, scoring, and strategy in the docs. Short, focused guides get you ready to compete in just a few minutes.",
-    points: ["Step-by-step guides", "Scoring breakdown", "Tips & FAQ"],
+    body: "เรียนรู้กฎ การให้คะแนน และกลยุทธ์จากเอกสาร คำแนะนำที่ สั้นและเน้นจุดสำคัญทำให้คุณพร้อมที่จะแข่งขันในเพียงไม่กี่นาที",
+    points: ["67 คะเเนนหาร 2", "Boxing คะเเนนปกติ", "Squat คะเเนนคุณ 3"],
   },
   {
     icon: SparkleIcon,
-    body: "Warm up with quick, motion-based minigames between rounds. Easy to jump into, hard to put down — and they sharpen the skills the contest rewards.",
-    points: ["One-tap to start", "Motion tracking", "Beat your best"],
+    body: "เตรียมตัวด้วยมินิเกมที่ใช้การเคลื่อนไหวอย่างรวดเร็วระหว่างรอบ เข้าเล่นได้ง่าย และเล่นตามหลักเกณฑ์ยากจนกว่า และพวกมันเพิ่มเติมทักษะที่การแข่งขันให้รางวัล",
+    points: ["แตะเพื่อเริ่มต้น", "การติดตามการเคลื่อนไหว", "พิชิตสถิติของคุณ"],
   },
 ];
 
@@ -68,12 +69,10 @@ export default function MainPage() {
             Welcome
           </span>
           <h1 className="text-5xl font-extrabold tracking-tight md:text-6xl">
-            Sarsas Contest
+            SWBT AI SPORTS CONTEST
           </h1>
           <p className="max-w-xl text-slate-200">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Explore the docs or
-            jump into a minigame from the navbar above.
+            ช่วงเวลาที่สามารถเข้าใช้งานเว็บไซต์เพื่อการเล่นและทำกิจกรรมได้ คือ เวลา 11.30–12.30 น. (ช่วงพักกลางวัน) โดยเริ่มเปิดให้ใช้งานตั้งแต่วันที่ 1 กรกฎาคม ถึง 18 กันยายน 2569
           </p>
         </section>
       </div>
@@ -118,12 +117,15 @@ export default function MainPage() {
 
       {/* Separator between landing and use cases */}
       <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-
+      <section>
+        <Ranking heading="Ranking" />
+      </section>
+            <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       {/* Use cases — circular video gallery */}
       <section>
-        <h2 className="mb-2 text-2xl font-bold tracking-tight">Use Cases</h2>
+        <h2 className="mb-2 text-2xl font-bold tracking-tight">ตัวอย่างการเล่น</h2>
         <p className="mb-6 text-slate-400">
-          Drag or scroll through the ways Sarsas Contest gets classrooms moving.
+          นี่เป็นตัวอย่างบางส่วนของกิจกรรมและมินิเกมที่คุณจะได้พบใน Sarsas Contest
         </p>
         <div className="relative h-[500px] w-full">
           <CircularGallery
