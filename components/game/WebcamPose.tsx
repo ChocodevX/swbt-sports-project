@@ -9,7 +9,10 @@ import {
 
 type WebcamPoseProps = {
   poseLandmarker: PoseLandmarker | null;
-  onResults: (landmarks: NormalizedLandmark[] | undefined) => void;
+  onResults: (
+    landmarks: NormalizedLandmark[] | undefined,
+    video: { width: number; height: number }
+  ) => void;
 };
 
 export default function WebcamPose({
@@ -69,7 +72,10 @@ export default function WebcamPose({
         // });
       }
 
-      onResultsRef.current(landmarks);
+      onResultsRef.current(landmarks, {
+        width: video.videoWidth,
+        height: video.videoHeight,
+      });
     };
 
     (async () => {

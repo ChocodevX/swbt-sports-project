@@ -23,9 +23,11 @@ const RETRACT_THRESHOLD = 0.20;
 
 type UseBoxingGameOptions = {
   onDone?: (score: number) => void;
+  // Fired on every punch, with the punching wrist in *video pixel* coords.
+  onPunch?: (pos: { x: number; y: number }) => void;
 };
 
-export function useBoxingGame({ onDone }: UseBoxingGameOptions = {}) {
+export function useBoxingGame({ onDone, onPunch }: UseBoxingGameOptions = {}) {
   const [state, setState] = useState<GameState>("WAITING");
   const [count, setCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
@@ -39,11 +41,16 @@ export function useBoxingGame({ onDone }: UseBoxingGameOptions = {}) {
   const isRightExtendedRef = useRef(false);
   
   const onDoneRef = useRef(onDone);
+  const onPunchRef = useRef(onPunch);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     onDoneRef.current = onDone;
   }, [onDone]);
+
+  useEffect(() => {
+    onPunchRef.current = onPunch;
+  }, [onPunch]);
 
   const setGameState = useCallback((next: GameState) => {
     stateRef.current = next;
@@ -98,7 +105,10 @@ export function useBoxingGame({ onDone }: UseBoxingGameOptions = {}) {
   }, [setGameState, clearTimer, startPlaying]);
 
   const processFrame = useCallback(
-    (landmarks: NormalizedLandmark[] | undefined) => {
+    (
+      landmarks: NormalizedLandmark[] | undefined,
+      video?: { width: number; height: number }
+    ) => {
       const current = stateRef.current;
       
       const leftWrist = landmarks?.[LEFT_WRIST];
@@ -126,13 +136,16 @@ export function useBoxingGame({ onDone }: UseBoxingGameOptions = {}) {
 
         let scoreChanged = false;
 
+        const w = video?.width ?? 0;
+        const h = video?.height ?? 0;
+
         // 🥊 เช็คหมัดซ้าย
         if (!isLeftExtendedRef.current && leftDist > PUNCH_THRESHOLD) {
           // ยืดแขนชกออกไป!
           isLeftExtendedRef.current = true;
           countRef.current += 1;
           scoreChanged = true;
-          console.log("🥊 Left Punch!");
+          onPunchRef.current?.({ x: leftWrist.x * w, y: leftWrist.y * h });
         } else if (isLeftExtendedRef.current && leftDist < RETRACT_THRESHOLD) {
           // ดึงหมัดซ้ายกลับมาตั้งการ์ดแล้ว
           isLeftExtendedRef.current = false;
@@ -144,7 +157,7 @@ export function useBoxingGame({ onDone }: UseBoxingGameOptions = {}) {
           isRightExtendedRef.current = true;
           countRef.current += 1;
           scoreChanged = true;
-          console.log("🥊 Right Punch!");
+          onPunchRef.current?.({ x: rightWrist.x * w, y: rightWrist.y * h });
         } else if (isRightExtendedRef.current && rightDist < RETRACT_THRESHOLD) {
           // ดึงหมัดขวากลับมาตั้งการ์ดแล้ว
           isRightExtendedRef.current = false;

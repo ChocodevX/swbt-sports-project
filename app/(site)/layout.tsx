@@ -6,7 +6,7 @@ const navItems: CardNavItem[] = [
     bgColor: "#0e1b33",
     textColor: "#dbeafe",
     links: [
-      { label: "Overview", href: "/main", ariaLabel: "Docs overview" },
+      { label: "Main", href: "/main", ariaLabel: "Docs overview" },
       { label: "Scoring", href: "/ranking", ariaLabel: "Scoring guide" },
       { label: "Use Case", href: "/use-case", ariaLabel: "Use cases" },
     ],
@@ -16,10 +16,10 @@ const navItems: CardNavItem[] = [
     bgColor: "#13294f",
     textColor: "#dbeafe",
     links: [
-      { label: "All minigames", href: "/minigame", ariaLabel: "All minigames" },
-      { label: "67 Speed", href: "/minigame/67-speed", ariaLabel: "Play 67 Speed" },
-      { label: "Shadowbox", href: "/minigame/shadowbox", ariaLabel: "Play Shadowbox" },
-      { label: "Pose-Off", href: "/minigame/pose-off", ariaLabel: "Play Pose-Off" },
+      // { label: "All minigames", href: "/minigame", ariaLabel: "All minigames" },
+      { label: "67 Speed", href: "/game/67", ariaLabel: "Play 67 Speed" },
+      { label: "Shadowbox", href: "/game/boxing", ariaLabel: "Play Shadowbox" },
+      { label: "Pose-Off", href: "/game/squad", ariaLabel: "Squad" },
     ],
   },
   // {
@@ -40,9 +40,9 @@ const navItems: CardNavItem[] = [
     textColor: "#e0ecff",
     links: [
       { label: "Meet the team", href: "/author", ariaLabel: "Meet the team" },
-      { label: "GitHub", href: "https://github.com", ariaLabel: "GitHub" },
-      { label: "Discord", href: "https://discord.com", ariaLabel: "Discord" },
-      { label: "Contact", href: "mailto:hello@example.com", ariaLabel: "Contact the author" },
+      { label: "Facebook", href: "https://www.facebook.com/sarasasdotswbt", ariaLabel: "Facebook" },
+      { label: "Tiktok", href: "https://www.tiktok.com/@swbtschool.official", ariaLabel: "Tiktok" },
+      // { label: "Contact", href: "https://google.com/swbt.online5201@gmail.com", ariaLabel: "Gmail" },
     ],
   },
 ];
@@ -55,7 +55,7 @@ export default function SiteLayout({
   return (
     <div className="min-h-screen bg-[#030b18] text-white">
       <CardNav
-        logo="/reactbits-gh-white-CwYbRgPy.svg"
+        logo="/swbtbanner.png"
         logoAlt="Sarsas Contest"
         items={navItems}
         theme="dark"

@@ -2,7 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Minigame } from "@/lib/minigames";
 
-export default function MinigameCard({ game }: { game: Minigame }) {
+export default function MinigameCard({
+  game,
+  priority = false,
+}: {
+  game: Minigame;
+  priority?: boolean;
+}) {
   return (
     <Link
       href={game.href ?? `/minigame/${game.slug}`}
@@ -12,6 +18,8 @@ export default function MinigameCard({ game }: { game: Minigame }) {
         src={game.cover}
         alt={game.title}
         fill
+        // Eager-load the first (above-the-fold) cover so it isn't lazy LCP.
+        priority={priority}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         className="object-cover transition-transform duration-500 group-hover:scale-105"
       />

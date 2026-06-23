@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
+import { silenceMediapipeWarnings } from "@/lib/silenceMediapipeWarnings";
 
 // Self-hosted WASM (copied from the package into /public/mediapipe/wasm).
 export const WASM_PATH = "/mediapipe/wasm";
@@ -25,6 +26,8 @@ export function usePoseLandmarker(): UsePoseLandmarker {
 
   useEffect(() => {
     let cancelled = false;
+
+    silenceMediapipeWarnings(); // drop benign WASM log spam before it starts
 
     (async () => {
       try {

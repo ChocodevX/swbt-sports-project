@@ -14,9 +14,13 @@ const RIGHT_WRIST = 16;
 
 type Use67GameOptions = {
   onDone?: (score: number) => void;
+  // Fired on every count++, with the left wrist in *video pixel* coords
+  // (landmark.x * videoWidth, landmark.y * videoHeight). The particle canvas
+  // shares the video's resolution + CSS mirror, so these line up on screen.
+  onPunch?: (pos: { x: number; y: number }) => void;
 };
 
-export function use67Game({ onDone }: Use67GameOptions = {}) {
+export function use67Game({ onDone, onPunch }: Use67GameOptions = {}) {
   const [state, setState] = useState<GameState>("WAITING");
   const [count, setCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
@@ -26,12 +30,20 @@ export function use67Game({ onDone }: Use67GameOptions = {}) {
   const stateRef = useRef<GameState>("WAITING");
   const countRef = useRef(0);
   const wasCrossedRef = useRef(false);
+  // Which wrist the next punch particle spawns from — toggles every count so the
+  // burst alternates right → left → right → left.
+  const punchRightRef = useRef(true);
   const onDoneRef = useRef(onDone);
+  const onPunchRef = useRef(onPunch);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     onDoneRef.current = onDone;
   }, [onDone]);
+
+  useEffect(() => {
+    onPunchRef.current = onPunch;
+  }, [onPunch]);
 
   const setGameState = useCallback((next: GameState) => {
     stateRef.current = next;
@@ -49,6 +61,7 @@ export function use67Game({ onDone }: Use67GameOptions = {}) {
   const startPlaying = useCallback(() => {
     countRef.current = 0;
     wasCrossedRef.current = false;
+    punchRightRef.current = true;
     setCount(0);
     setGameState("PLAYING");
 
@@ -86,9 +99,13 @@ export function use67Game({ onDone }: Use67GameOptions = {}) {
     }, 1000);
   }, [setGameState, clearTimer, startPlaying]);
 
-  // Called every frame with the first pose's 33 landmarks (or undefined).
+  // Called every frame with the first pose's 33 landmarks (or undefined) plus
+  // the source video's pixel dimensions (used to place the punch particles).
   const processFrame = useCallback(
-    (landmarks: NormalizedLandmark[] | undefined) => {
+    (
+      landmarks: NormalizedLandmark[] | undefined,
+      video?: { width: number; height: number }
+    ) => {
       const current = stateRef.current;
       const leftWrist = landmarks?.[LEFT_WRIST];
       const rightWrist = landmarks?.[RIGHT_WRIST];
@@ -115,10 +132,16 @@ if (current === "PLAYING") {
     if (currentLeftHigher !== wasCrossedRef.current) {
       countRef.current += 1;
       setCount(countRef.current);
-      
-      console.log("Count:", countRef.current);
-      console.log("State: สลับมือขึ้นลงสวนกัน");
-      
+
+      // สลับมือที่ใช้ spawn particle ทุกครั้ง: ขวา → ซ้าย → ขวา → ซ้าย
+      // ส่งเป็น pixel ในพิกัดวิดีโอ (ไม่กลับแกน X เพราะ canvas ถูกพลิกด้วย CSS แล้ว)
+      const wrist = punchRightRef.current ? rightWrist! : leftWrist!;
+      punchRightRef.current = !punchRightRef.current;
+      onPunchRef.current?.({
+        x: wrist.x * (video?.width ?? 0),
+        y: wrist.y * (video?.height ?? 0),
+      });
+
       // อัปเดตสถานะปัจจุบันเก็บไว้เทียบในเฟรมถัดไป
       wasCrossedRef.current = currentLeftHigher;
     }
@@ -136,6 +159,7 @@ if (current === "PLAYING") {
     clearTimer();
     countRef.current = 0;
     wasCrossedRef.current = false;
+    punchRightRef.current = true;
     setCount(0);
     setTimeLeft(GAME_DURATION);
     setCountdown(COUNTDOWN_FROM);

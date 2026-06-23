@@ -1,17 +1,26 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import type { NormalizedLandmark } from "@mediapipe/tasks-vision";
 import Link from "next/link";
 import WebcamPose from "@/components/game/WebcamPose";
 import ScoreDisplay from "@/components/game/ScoreDisplay";
 import GameOverlay, { type SaveStatus } from "@/components/game/GameOverlay";
+import ParticleCanvas, {
+  type ParticleHandle,
+  PARTICLE_STYLE_67,
+} from "@/components/game/ParticleCanvas";
 import { usePoseLandmarker } from "@/hooks/usePoseLandmarker";
 import { use67Game } from "@/hooks/use67Game";
+import { useGameFx } from "@/hooks/useGameFx";
+import { playTick } from "@/lib/gameFx";
 import { saveScore } from "@/lib/scores";
 
 export default function Game67Page() {
   const { poseLandmarker, ready, error } = usePoseLandmarker();
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
+  const particleRef = useRef<ParticleHandle>(null);
 
   const onDone = useCallback(async (score: number) => {
     setSaveStatus("saving");
@@ -23,9 +32,38 @@ export default function Game67Page() {
     }
   }, []);
 
+  // Each cross: short beep + a particle burst at the left wrist.
+  const onPunch = useCallback((pos: { x: number; y: number }) => {
+    void playTick();
+    particleRef.current?.spawn(pos.x, pos.y);
+  }, []);
+
   const { state, count, timeLeft, countdown, processFrame, reset } = use67Game({
     onDone,
+    onPunch,
   });
+
+  // Capture the video resolution once it's known (re-renders only on change),
+  // then forward every frame to the game's processFrame.
+  const handleResults = useCallback(
+    (
+      landmarks: NormalizedLandmark[] | undefined,
+      video: { width: number; height: number }
+    ) => {
+      if (video.width && video.height) {
+        setVideoSize((prev) =>
+          prev.width === video.width && prev.height === video.height
+            ? prev
+            : video
+        );
+      }
+      processFrame(landmarks, video);
+    },
+    [processFrame]
+  );
+
+  // Countdown beeps, BGM, and the game-over fanfare + confetti.
+  useGameFx(state, countdown);
 
   const handleReset = useCallback(() => {
     setSaveStatus("idle");
@@ -36,8 +74,16 @@ export default function Game67Page() {
     <main className="relative h-screen w-screen overflow-hidden bg-black text-white">
       {/* Camera + skeleton */}
       {ready && poseLandmarker && (
-        <WebcamPose poseLandmarker={poseLandmarker} onResults={processFrame} />
+        <WebcamPose poseLandmarker={poseLandmarker} onResults={handleResults} />
       )}
+
+      {/* Particle layer — above the skeleton, below the HUD/overlay UI */}
+      <ParticleCanvas
+        ref={particleRef}
+        style={PARTICLE_STYLE_67}
+        width={videoSize.width}
+        height={videoSize.height}
+      />
 
       {/* HUD while playing */}
       {(state === "PLAYING" || state === "COUNTDOWN") && (

@@ -22,9 +22,11 @@ const SQUAT_UP_THRESHOLD = 0.18;   // ยืดตัวขึ้นจนสะ
 
 type UseSquatGameOptions = {
   onDone?: (score: number) => void;
+  // Fired on every rep, with the hip-center (body) in *video pixel* coords.
+  onPunch?: (pos: { x: number; y: number }) => void;
 };
 
-export function useSquatGame({ onDone }: UseSquatGameOptions = {}) {
+export function useSquatGame({ onDone, onPunch }: UseSquatGameOptions = {}) {
   const [state, setState] = useState<GameState>("WAITING");
   const [count, setCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
@@ -37,11 +39,16 @@ export function useSquatGame({ onDone }: UseSquatGameOptions = {}) {
   const isSquattingRef = useRef(false);
   
   const onDoneRef = useRef(onDone);
+  const onPunchRef = useRef(onPunch);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     onDoneRef.current = onDone;
   }, [onDone]);
+
+  useEffect(() => {
+    onPunchRef.current = onPunch;
+  }, [onPunch]);
 
   const setGameState = useCallback((next: GameState) => {
     stateRef.current = next;
@@ -95,7 +102,10 @@ export function useSquatGame({ onDone }: UseSquatGameOptions = {}) {
   }, [setGameState, clearTimer, startPlaying]);
 
   const processFrame = useCallback(
-    (landmarks: NormalizedLandmark[] | undefined) => {
+    (
+      landmarks: NormalizedLandmark[] | undefined,
+      video?: { width: number; height: number }
+    ) => {
       const current = stateRef.current;
       
       const leftHip = landmarks?.[LEFT_HIP];
@@ -125,15 +135,19 @@ export function useSquatGame({ onDone }: UseSquatGameOptions = {}) {
         // 🧘‍♂️ จังหวะที่ 1: ผู้เล่นย่อตัวลงมาจนต่ำกว่าเกณฑ์ (สะโพกใกล้เข่า)
         if (!isSquattingRef.current && avgDiffY < SQUAT_DOWN_THRESHOLD) {
           isSquattingRef.current = true;
-          console.log("⬇️ ย่อตัวลงสุดแล้ว!");
-        } 
-        
+        }
+
         // 🧍‍♂️ จังหวะที่ 2: ผู้เล่นยืนยืดตัวกลับขึ้นไปจนสุด ถึงจะยอมนับคะแนนให้ +1
         else if (isSquattingRef.current && avgDiffY > SQUAT_UP_THRESHOLD) {
           isSquattingRef.current = false;
           countRef.current += 1;
           setCount(countRef.current);
-          console.log("⬆️ ยืดตัวตรง! นับคะแนน:", countRef.current);
+
+          // spawn particle ที่กลางลำตัว (จุดกึ่งกลางสะโพก) ไม่ใช่ที่มือ
+          onPunchRef.current?.({
+            x: ((leftHip.x + rightHip.x) / 2) * (video?.width ?? 0),
+            y: ((leftHip.y + rightHip.y) / 2) * (video?.height ?? 0),
+          });
         }
       }
     },

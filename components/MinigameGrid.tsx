@@ -8,8 +8,8 @@ export default function MinigameGrid({ heading }: { heading?: string }) {
         <h2 className="mb-6 text-2xl font-bold tracking-tight">{heading}</h2>
       )}
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {minigames.map((game) => (
-          <MinigameCard key={game.slug} game={game} />
+        {minigames.map((game, i) => (
+          <MinigameCard key={game.slug} game={game} priority={i === 0} />
         ))}
       </div>
     </div>
