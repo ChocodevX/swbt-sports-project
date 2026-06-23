@@ -57,11 +57,20 @@ export async function saveScore(game: GameType, score: number): Promise<SaveResu
   // Store the weighted score (UI keeps showing the raw count).
   const dbScore = Math.round(score * SCORE_MULTIPLIER[game]);
 
-  const { error: scoreErr } = await supabase.rpc('upsert_best_score', {
-    p_player_id: playerId,
-    p_game: game,
-    p_score: dbScore,
-  });
+  // Accumulate: add this play's points to any existing score for the same
+  // player+game instead of replacing it. The scores table has a unique
+  // constraint on (player_id, game), so we read-then-upsert that single row.
+  const { data: prev } = await supabase
+    .from('scores')
+    .select('score')
+    .eq('player_id', playerId)
+    .eq('game', game)
+    .maybeSingle();
+  const newScore = (prev?.score ?? 0) + dbScore;
+
+  const { error: scoreErr } = await supabase
+    .from('scores')
+    .upsert({ player_id: playerId, game, score: newScore }, { onConflict: 'player_id,game' });
   if (scoreErr) return 'error';
 
   const { data: allScores } = await supabase
