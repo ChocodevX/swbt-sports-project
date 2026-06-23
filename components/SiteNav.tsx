@@ -2,6 +2,13 @@
 
 import CardNav, { type CardNavItem } from "@/components/CardNav";
 import { usePlayerScore } from "@/hooks/usePlayerScore";
+import { clearStoredPlayer } from "@/lib/players";
+
+function handleLogout() {
+  clearStoredPlayer();
+  // Optionally, you could also redirect the user to the login page or homepage after logout.
+  // For example: window.location.href = "/";
+}
 
 const navItems: CardNavItem[] = [
   {
@@ -12,6 +19,12 @@ const navItems: CardNavItem[] = [
       { label: "Main", href: "/main", ariaLabel: "Docs overview" },
       { label: "Scoring", href: "/ranking", ariaLabel: "Scoring guide" },
       { label: "Use Case", href: "/use-case", ariaLabel: "Use cases" },
+      {
+        label: "Log Out",
+        href: "/",
+        ariaLabel: "Log out",
+        onClick: handleLogout // ผูกฟังก์ชันล้างระบบเข้าตรงนี้
+      } as any,
     ],
   },
   {

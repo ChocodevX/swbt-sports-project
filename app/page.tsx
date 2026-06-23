@@ -33,6 +33,9 @@ export default function LoginPage() {
       return;
     }
     if (getStoredPlayerId()) {
+      clearStoredPlayer();
+      setChecking(false);
+      console.log("Existing player cookie found, refreshing and redirecting...");
       refreshPlayerCookie();
       router.replace("/main");
       return;
@@ -172,9 +175,10 @@ export default function LoginPage() {
           />
         </div>
         <p className="mt-4 hidden text-sm text-blue-200/60 md:block md:text-base">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco.
+            วัตถุประสงค์ในการสร้างเว็บ AI Sports สำหรับการแข่งขันกีฬาสี<br></br>
+            1.เพื่อใช้เป็นสื่อกลางในการแข่งขันกีฬาสีในรูปแบบดิจิทัล<br></br>
+            2.เพื่อส่งเสริมการมีส่วนร่วมของนักเรียนทุกระดับชั้น<br></br>
+            3.เพื่อพัฒนาทักษะการทำงานเป็นทีม
         </p>
 
         <div className="pointer-events-auto mt-6 flex justify-end gap-4">
