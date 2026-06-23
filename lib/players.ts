@@ -45,3 +45,25 @@ export async function registerPlayer(
   Cookies.set(NAME_COOKIE, `${firstName} ${lastName}`.trim(), { expires: COOKIE_DAYS });
   return data.id;
 }
+
+// Look up an existing player first; only create a new record if none is found.
+export async function loginOrRegisterPlayer(
+  firstName: string,
+  lastName: string,
+  classroomId: number
+): Promise<string | null> {
+  if (!supabase) return null;
+  const { data: existing } = await supabase
+    .from('players')
+    .select('id')
+    .eq('first_name', firstName)
+    .eq('last_name', lastName)
+    .eq('classroom_id', classroomId)
+    .maybeSingle();
+  if (existing?.id) {
+    Cookies.set(COOKIE_NAME, existing.id, { expires: COOKIE_DAYS });
+    Cookies.set(NAME_COOKIE, `${firstName} ${lastName}`.trim(), { expires: COOKIE_DAYS });
+    return existing.id;
+  }
+  return registerPlayer(firstName, lastName, classroomId);
+}

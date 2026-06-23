@@ -6,7 +6,7 @@ import BlurText from "@/components/BlurText";
 import ClassroomSelect from "@/components/ClassroomSelect";
 import SideRays from "@/components/SideRays";
 import {
-  registerPlayer,
+  loginOrRegisterPlayer,
   getStoredPlayerId,
   refreshPlayerCookie,
   clearStoredPlayer,
@@ -48,11 +48,11 @@ export default function LoginPage() {
     if (!classroom) return;
     setSubmitting(true);
     setError(null);
-    const playerId = await registerPlayer(firstName, lastName, classroom.id);
+    const playerId = await loginOrRegisterPlayer(firstName, lastName, classroom.id);
     if (playerId) {
       router.push("/main");
     } else {
-      setError("Could not register — check your connection and try again.");
+      setError("Could not log in — check your connection and try again.");
       setSubmitting(false);
     }
   }
@@ -158,7 +158,7 @@ export default function LoginPage() {
             }
             className="group relative z-0 flex w-full cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border border-white/10 py-2.5 font-medium !text-white [background:var(--bg)] [border-radius:var(--radius)] transform-gpu transition-transform duration-300 ease-in-out active:translate-y-px hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {submitting ? "Registering…" : "Confirm"}
+            {submitting ? "Logging in…" : "Confirm"}
           </button>
         </form>
       </div>
