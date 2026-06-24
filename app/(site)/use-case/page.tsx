@@ -2,7 +2,7 @@
 
 import CircularGallery from "@/components/CircularGallery";
 
-const VIDEO_A = "/74c35cb7-2f50-4098-89ee-e3845197f29a.mp4";
+const VIDEO_A = "/ScreenRecording_06-23-2569 15-53-13_1.mov";
 const VIDEO_B = "/fc2e1e10-3fa4-4f12-a4e5-f31d88d6e532.mp4";
 
 // Six use-case mockups, each rendered as a live video card in the circular

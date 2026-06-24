@@ -5,17 +5,18 @@ import TextType from "@/components/TextType";
 import BorderGlow from "@/components/BorderGlow";
 import CircularGallery from "@/components/CircularGallery";
 
-const VIDEO_A = "/74c35cb7-2f50-4098-89ee-e3845197f29a.mp4";
-const VIDEO_B = "/fc2e1e10-3fa4-4f12-a4e5-f31d88d6e532.mp4";
+const VIDEO_A = "/ScreenRecording_06-23-2569 15-55-13_1.mov";
+const VIDEO_B = "/ScreenRecording_06-23-2569 15-51-54_1.mov";
+const VIDEO_C = "/ScreenRecording_06-23-2569 15-53-13_1.mov";
 
 // Use-case mockups for the home page gallery — same six clips as /use-case.
 const useCases = [
   { text: "Classroom Contests", video: VIDEO_A },
   { text: "PE Warm-ups", video: VIDEO_B },
   { text: "Live Leaderboards", video: VIDEO_A },
-  { text: "Motion Tracking", video: VIDEO_B },
-  { text: "Squad Battles", video: VIDEO_A },
-  { text: "Daily Challenges", video: VIDEO_B },
+  { text: "Motion Tracking", video: VIDEO_C },
+  { text: "Squad Battles", video: VIDEO_B },
+  { text: "Daily Challenges", video: VIDEO_C },
 ].map((u) => ({ ...u, image: "" }));
 
 // Inline Chakra-style sparkle icon (filled, currentColor) — used instead of
