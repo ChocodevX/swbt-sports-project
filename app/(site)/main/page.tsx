@@ -1,6 +1,7 @@
 import MinigameGrid from "@/components/MinigameGrid";
 import Ranking from "@/components/ranking";
-import Aurora from "@/components/Aurora";
+import FloatingLines from "@/components/FloatingLines";
+import TextType from "@/components/TextType";
 import BorderGlow from "@/components/BorderGlow";
 import CircularGallery from "@/components/CircularGallery";
 
@@ -51,26 +52,38 @@ export default function MainPage() {
           breaks out of the centered container and cancels the layout's top
           padding so there's no gap above it. */}
       <div className="relative left-1/2 right-1/2 -mx-[50vw] -mt-28 w-screen overflow-hidden">
-        {/* Aurora canvas */}
-        <div className="pointer-events-none absolute inset-0">
-          <Aurora
-            colorStops={["#1e40af", "#3b82f6", "#60a5fa"]}
-            amplitude={1.1}
-            blend={0.55}
-            speed={0.8}
+        {/* FloatingLines canvas — fills the hero; pointer events stay on so
+            mouse bend + parallax respond to the cursor. min-h gives the
+            absolutely-positioned layer a real height to render into. */}
+        <div className="absolute inset-0 min-h-[850px]">
+          <FloatingLines
+            linesGradient={["#091fc3", "#fc1212", "#EAB308", "#10B981"]}
+            animationSpeed={1.1}
+            interactive
+            bendRadius={8}
+            bendStrength={-1.8}
+            mouseDamping={0.01}
+            parallax
+            parallaxStrength={0.45}
           />
         </div>
         {/* Bottom fade into the exact page background so the hero connects seamlessly */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[#030b18]" />
 
         {/* Hero content sits on top of the aurora */}
-        <section className="relative z-10 mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 pb-16 pt-36 text-center">
+        <section className="relative z-10 mx-auto flex min-h-[950px] max-w-5xl flex-col items-center justify-center gap-6 px-6 pb-16 pt-36 text-center">
           <span className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-widest text-indigo-300 backdrop-blur-sm">
             Welcome
           </span>
-          <h1 className="text-5xl font-extrabold tracking-tight md:text-6xl">
-            SWBT AI SPORTS CONTEST
-          </h1>
+          <TextType
+            as="h1"
+            className="text-5xl font-extrabold tracking-tight md:text-6xl"
+            text={["SWBT AI SPORTS CONTEST"]}
+            typingSpeed={75}
+            pauseDuration={3500}
+            showCursor
+            cursorCharacter="|"
+          />
           <p className="max-w-xl text-slate-200">
             ช่วงเวลาที่สามารถเข้าใช้งานเว็บไซต์เพื่อการเล่นและทำกิจกรรมได้ คือ เวลา 11.30–12.30 น. (ช่วงพักกลางวัน) โดยเริ่มเปิดให้ใช้งานตั้งแต่วันที่ 1 กรกฎาคม ถึง 18 กันยายน 2569
           </p>
