@@ -1,3 +1,12 @@
+import { notFound } from "next/navigation";
+
+// --- Author page disabled (hidden). Visiting /author now returns 404.
+//     To re-enable: restore the ORIGINAL block below and remove this stub. ---
+export default function AuthorPage() {
+  notFound();
+}
+
+/* ORIGINAL (disabled):
 "use client";
 
 import ProfileCard from "@/components/ProfileCard";
@@ -18,7 +27,7 @@ const authors = [
     innerGradient: "linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)",
     behindGlowColor: "rgba(0, 190, 255, 0.67)",
     // Per-author picture path (served from public/). Falls back to AVATAR when omitted.
-    avatarUrl: "/off.png",
+    avatarUrl: "public/off.png",
   },
   {
     name: "Dusita",
@@ -29,7 +38,7 @@ const authors = [
     contactUrl: "https://www.instagram.com/dst.pat/",
     innerGradient: "linear-gradient(145deg,#6e495a8c 0%,#FF71C444 100%)",
     behindGlowColor: "rgba(255, 125, 190, 0.6)",
-    avatarUrl: "/pat.png",
+    avatarUrl: "public/pat.png",
   },
   {
     name: "Pongkaseam",
@@ -40,7 +49,7 @@ const authors = [
     contactUrl: "https://www.instagram.com/txrokps_/",
     innerGradient: "linear-gradient(145deg,#496e588c 0%,#71FFB444 100%)",
     behindGlowColor: "rgba(125, 255, 190, 0.55)",
-    avatarUrl: "/taro.png",
+    avatarUrl: "public/taro.png",
   },
 ];
 
@@ -53,13 +62,11 @@ export default function AuthorPage() {
       </p>
 
       <div className="grid justify-items-center gap-10 sm:grid-cols-2 lg:grid-cols-3">
-        {authors.map((author) => {
-          const src = author.avatarUrl ?? AVATAR;
-          return (
+        {authors.map((author) => (
           <ProfileCard
             key={author.handle}
-            avatarUrl={src}
-            miniAvatarUrl={src}
+            avatarUrl={AVATAR}
+            miniAvatarUrl={AVATAR}
             name={author.name}
             title={author.title}
             handle={author.handle}
@@ -72,9 +79,9 @@ export default function AuthorPage() {
             enableTilt
             showUserInfo
           />
-          );
-        })}
+        ))}
       </div>
     </section>
   );
 }
+*/

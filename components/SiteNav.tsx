@@ -42,7 +42,6 @@ const navItems: CardNavItem[] = [
     bgColor: "#1b3a6b",
     textColor: "#e0ecff",
     links: [
-      { label: "Meet the team", href: "/author", ariaLabel: "Meet the team" },
       {
         label: "Facebook",
         href: "https://www.facebook.com/sarasasdotswbt",
