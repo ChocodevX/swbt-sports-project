@@ -8,7 +8,7 @@ const AVATAR = "/person.webp";
 // Three author mockups for the team behind Sarsas Contest.
 const authors = [
   {
-    name: "นายโกศล กำเนิดไพรวัน",
+    name: "Kosol",
     title: "Lead Engineer",
     handle: "javicodes",
     status: "Online",
@@ -18,10 +18,10 @@ const authors = [
     innerGradient: "linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)",
     behindGlowColor: "rgba(0, 190, 255, 0.67)",
     // Per-author picture path (served from public/). Falls back to AVATAR when omitted.
-    avatarUrl: "/off.png",
+    avatarUrl: "public/off.png",
   },
   {
-    name: "นางสาวดุสิตา ศรีสุข",
+    name: "Dusita",
     title: "Product Manager",
     handle: "patdstbb",
     status: "Online",
@@ -29,7 +29,7 @@ const authors = [
     contactUrl: "https://www.instagram.com/dst.pat/",
     innerGradient: "linear-gradient(145deg,#6e495a8c 0%,#FF71C444 100%)",
     behindGlowColor: "rgba(255, 125, 190, 0.6)",
-    avatarUrl: "/pat.png",
+    avatarUrl: "public/pat.png",
   },
   {
     name: "Pongkaseam",
@@ -40,7 +40,7 @@ const authors = [
     contactUrl: "https://www.instagram.com/txrokps_/",
     innerGradient: "linear-gradient(145deg,#496e588c 0%,#71FFB444 100%)",
     behindGlowColor: "rgba(125, 255, 190, 0.55)",
-    avatarUrl: "/taro.png",
+    avatarUrl: "public/taro.png",
   },
 ];
 
