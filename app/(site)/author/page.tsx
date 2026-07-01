@@ -17,6 +17,26 @@
 //     innerGradient: "linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)",
 //     behindGlowColor: "rgba(0, 190, 255, 0.67)",
 //   },
+//   {
+//     name: "Mia Chen",
+//     title: "Product Designer",
+//     handle: "miadesigns",
+//     status: "Away",
+//     contactText: "Say Hi",
+//     contactUrl: "https://twitter.com/miadesigns",
+//     innerGradient: "linear-gradient(145deg,#6e495a8c 0%,#FF71C444 100%)",
+//     behindGlowColor: "rgba(255, 125, 190, 0.6)",
+//   },
+//   {
+//     name: "Leo Park",
+//     title: "Motion Engineer",
+//     handle: "leomoves",
+//     status: "Online",
+//     contactText: "Connect",
+//     contactUrl: "https://www.linkedin.com/in/leomoves",
+//     innerGradient: "linear-gradient(145deg,#496e588c 0%,#71FFB444 100%)",
+//     behindGlowColor: "rgba(125, 255, 190, 0.55)",
+//   },
 // ];
 
 // export default function AuthorPage() {
