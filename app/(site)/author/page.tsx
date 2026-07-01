@@ -18,7 +18,7 @@ const authors = [
     innerGradient: "linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)",
     behindGlowColor: "rgba(0, 190, 255, 0.67)",
     // Per-author picture path (served from public/). Falls back to AVATAR when omitted.
-    avatarUrl: "public/off.png",
+    avatarUrl: "/off.png",
   },
   {
     name: "Dusita",
@@ -29,7 +29,7 @@ const authors = [
     contactUrl: "https://www.instagram.com/dst.pat/",
     innerGradient: "linear-gradient(145deg,#6e495a8c 0%,#FF71C444 100%)",
     behindGlowColor: "rgba(255, 125, 190, 0.6)",
-    avatarUrl: "public/pat.png",
+    avatarUrl: "/pat.png",
   },
   {
     name: "Pongkaseam",
@@ -40,7 +40,7 @@ const authors = [
     contactUrl: "https://www.instagram.com/txrokps_/",
     innerGradient: "linear-gradient(145deg,#496e588c 0%,#71FFB444 100%)",
     behindGlowColor: "rgba(125, 255, 190, 0.55)",
-    avatarUrl: "public/taro.png",
+    avatarUrl: "/taro.png",
   },
 ];
 
@@ -53,11 +53,13 @@ export default function AuthorPage() {
       </p>
 
       <div className="grid justify-items-center gap-10 sm:grid-cols-2 lg:grid-cols-3">
-        {authors.map((author) => (
+        {authors.map((author) => {
+          const src = author.avatarUrl ?? AVATAR;
+          return (
           <ProfileCard
             key={author.handle}
-            avatarUrl={AVATAR}
-            miniAvatarUrl={AVATAR}
+            avatarUrl={src}
+            miniAvatarUrl={src}
             name={author.name}
             title={author.title}
             handle={author.handle}
@@ -70,7 +72,8 @@ export default function AuthorPage() {
             enableTilt
             showUserInfo
           />
-        ))}
+          );
+        })}
       </div>
     </section>
   );
